@@ -49,6 +49,7 @@
         }
         p.lead {
             color:#ff8366;
+            font-size: 30px;
         }
         p.description, p.legends {
             color:#b2b2b2;
@@ -70,6 +71,22 @@
         div.footer-copyright.text-center.py-3 {
             color:#8694de;
         }
+        th {
+            color:#8694de;
+        }
+        td {
+            color:#ffffff;
+        }
+        div.card.text-center {
+            border:none;
+        }
+        div.card-header {
+            color:#8694de;
+            background-color:#242532;
+        }
+        div.card-body {
+            background-color:#282a38;
+        }
 
     </style>
 </head>
@@ -89,13 +106,13 @@
                 <div class=" collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav ms-auto ">
                         <li class="nav-item">
-                            <a class="nav-link mx-2 active" aria-current="page" href="/"><i class="fa fa-house"></i></a>
+                            <a class="nav-link mx-2" aria-current="page" href="/"><i class="fa fa-house"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mx-2" href="total-confirmed-cases.html"><i class="fa fa-list"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-2" href="total-recovered-cases.html"><i class="fa fa-suitcase-medical"></i></a>
+                            <a class="nav-link mx-2 active" href="total-recovered-cases.html"><i class="fa fa-suitcase-medical"></i></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mx-2" href="#"><i class="fa fa-skull"></i></a>
@@ -113,18 +130,44 @@
 
     <br>
 
-    <div class="jumbotron">
-        <h1 class="display-3">Coronavirus Tracker</h1>
-        <p class="lead">Total Cases: <span th:text="${totalReportedCases}"></span></p>
-        <hr class="my-4">
-        <p class="description">An application that shows the current number of coronavirus cases <br> around the globe and updates on a daily basis.</p>
-        <p class="legends"> <i class="fa fa-list"></i> Total Cases <br>
-            <i class="fa fa-suitcase-medical"></i> Recovered Cases <br>
-            <i class="fa fa-skull"></i> Death Cases</p>
-        <p class="learn-more">
-            <a href="total-cases.html" class="btn btn-outline-primary"><span class="fa fa-book"></span> Learn More</a>
-        </p>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    TOTAL RECOVERED CASES
+                </div>
+                <div class="card-body">
+                    <p class="lead"><span th:text="${totalRecoveredCases}"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    DAILY RECOVERED CASES
+                </div>
+                <div class="card-body">
+                    <p class="lead"><span th:text="${totalNewRecoveredCases}"></span></p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <br>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>State</th>
+            <th>Country</th>
+            <th>Total Cases Reported</th>
+            <th>Changes since last day</th>
+        </tr>
+        <tr th:each="locationStat : ${locationStats}">
+            <td th:text="${locationStat.state}"></td>
+            <td th:text="${locationStat.country}"></td>
+            <td th:text="${locationStat.latestTotalCases}">0</td>
+        </tr>
+    </table>
 
     <!-- Footer -->
     <footer class="page-footer font-small cyan darken-3">
