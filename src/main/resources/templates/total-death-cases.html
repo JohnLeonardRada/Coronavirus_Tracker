@@ -112,10 +112,10 @@
                             <a class="nav-link mx-2" href="total-confirmed-cases.html"><i class="fa fa-list"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-2 active" href="total-recovered-cases.html"><i class="fa fa-suitcase-medical"></i></a>
+                            <a class="nav-link mx-2" href="total-recovered-cases.html"><i class="fa fa-suitcase-medical"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link mx-2" href="total-death-cases.html"><i class="fa fa-skull"></i></a>
+                            <a class="nav-link mx-2 active" href="total-death-cases.html"><i class="fa fa-skull"></i></a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto d-none d-lg-inline-flex">
@@ -134,20 +134,20 @@
         <div class="col-sm-6">
             <div class="card text-center">
                 <div class="card-header">
-                    TOTAL RECOVERED CASES
+                    TOTAL DEATH CASES
                 </div>
                 <div class="card-body">
-                    <p class="lead"><span th:text="${totalRecoveredCases}"></span></p>
+                    <p class="lead"><span th:text="${totalDeathCases}"></span></p>
                 </div>
             </div>
         </div>
         <div class="col-sm-6">
             <div class="card text-center">
                 <div class="card-header">
-                    DAILY RECOVERED CASES
+                    DAILY DEATH CASES
                 </div>
                 <div class="card-body">
-                    <p class="lead"><span th:text="${totalNewRecoveredCases}"></span></p>
+                    <p class="lead"><span th:text="${totalNewDeathCases}"></span></p>
                 </div>
             </div>
         </div>

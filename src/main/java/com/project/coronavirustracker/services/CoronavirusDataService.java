@@ -24,6 +24,7 @@ public class CoronavirusDataService {
 
     private List<LocationStats> confirmedAllStats = new ArrayList<>();
     private List<LocationStats> recoveredAllStats = new ArrayList<>();
+    private List<LocationStats> deathAllStats = new ArrayList<>();
 
     public List<LocationStats> getConfirmedAllStats() {
         return confirmedAllStats;
@@ -31,6 +32,10 @@ public class CoronavirusDataService {
 
     public List<LocationStats> getRecoveredAllStats() {
         return recoveredAllStats;
+    }
+
+    public List<LocationStats> getDeathAllStats() {
+        return deathAllStats;
     }
 
     //After Done Creating The Instance Of The Class, Execute The Method With @PostConstruct
@@ -79,11 +84,39 @@ public class CoronavirusDataService {
             locationStat.setState(record.get("Province/State"));
             locationStat.setCountry(record.get("Country/Region"));
             int latestCases = Integer.parseInt(record.get(record.size() - 1));
+            int previousDayCases = Integer.parseInt(record.get(record.size() - 2));
             locationStat.setLatestTotalCases(latestCases);
+            locationStat.setDiffFromPreviousDay(latestCases - previousDayCases);
             System.out.println(locationStat);
 
             newStats.add(locationStat);
         }
         this.recoveredAllStats = newStats;
+    }
+
+    @PostConstruct
+    public void fetchDeathCases() throws IOException, InterruptedException {
+        List<LocationStats> newStats = new ArrayList<>();
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(DEATH_CASES_GLOBALLY_URL))
+                .build();
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        StringReader csvBodyReader = new StringReader(httpResponse.body());
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
+        for(CSVRecord record: records){
+            LocationStats locationStat = new LocationStats();
+            locationStat.setState(record.get("Province/State"));
+            locationStat.setCountry(record.get("Country/Region"));
+            int latestCases = Integer.parseInt(record.get(record.size() - 1));
+            int previousDayCases = Integer.parseInt(record.get(record.size() - 2));
+            locationStat.setLatestTotalCases(latestCases);
+            locationStat.setDiffFromPreviousDay(latestCases - previousDayCases);
+            System.out.println(locationStat);
+
+            newStats.add(locationStat);
+        }
+        this.deathAllStats = newStats;
     }
 }

@@ -50,7 +50,21 @@ public class HomeController {
         model.addAttribute("locationStats", recoveredAllStats);
         model.addAttribute("totalRecoveredCases", totalRecoveredCases);
         model.addAttribute("totalNewRecoveredCases", totalNewRecoveredCases);
+
         return "total-recovered-cases";
+    }
+
+    @GetMapping("/total-death-cases.html")
+    public String totalDeathCases(Model model) {
+        List<LocationStats> deathAllStats = coronavirusDataService.getDeathAllStats();
+        int totalDeathCases = deathAllStats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
+        int totalNewDeathCases = deathAllStats.stream().mapToInt(stat -> stat.getDiffFromPreviousDay()).sum();
+
+        model.addAttribute("locationStats", deathAllStats);
+        model.addAttribute("totalDeathCases", totalDeathCases);
+        model.addAttribute("totalNewDeathCases", totalNewDeathCases);
+
+        return "total-death-cases";
     }
 
 }
